@@ -73,6 +73,7 @@
 
 .nav-bar-content .btn:hover {
     background-color: var(--hover-color-violet);
+
 }
 
 @media (max-width:996px) {

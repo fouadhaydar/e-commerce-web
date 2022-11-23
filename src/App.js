@@ -18,6 +18,7 @@ import { selectUser, userData } from './app/userSlice'
 import Favorite from './pages/Favorite';
 import Cart from './component/Cart';
 import useFetecheData from './component/useFetecheData';
+import NotFound from './component/NotFound';
 
 
 
@@ -59,6 +60,7 @@ function App() {
           <Route path='/detail/:id' element={<Detail />} />
           <Route path='/favorite' element={<Favorite />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer />
       </div>
