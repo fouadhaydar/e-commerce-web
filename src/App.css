@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  scroll-behavior: smooth;
+}
+
+:root {
+  --section-margin: 50px auto;
+  --main-color-blue: rgba(25, 118, 210, 1);
+  --hover-color-violet: rgba(129, 85, 186, 1);
+  --nav-bar-color: rgba(18, 18, 21, 0.5);
+  --overlay-color: rgba(0, 0, 0, 0.572);
+  --footer-color: rgba(25, 118, 210, 0.2);
+  --error-color: #FF9494;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
+}
+
+body {
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.hero-section {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.hero-section img {
+  width: 100%;
+  height: 100%;
+
+}
