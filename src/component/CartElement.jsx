@@ -20,6 +20,7 @@ function CartElement({ url, name, number, price, id }) {
         height: '40px',
         marginRight: '5px'
     }
+    const firstLetter = name.charAt(0).toUpperCase()
 
     return (
         <div className='cart-outer-container'>
@@ -27,9 +28,9 @@ function CartElement({ url, name, number, price, id }) {
                 <img src={url} alt="funiture" />
             </div>
             <div className='info-main-container'>
-                <h2>{name.toUpperCase()}</h2>
+                <h2>{`${firstLetter}${name.slice(1)}`}</h2>
                 <h3>{number} Pice</h3>
-                <h3>${price}</h3>
+                <h3>$ {price}</h3>
                 <RippleButton onClick={handelOneItem} Mystyle={style}>Buy Now</RippleButton>
                 <i class="fa-solid fa-trash trash" onClick={() => deleteFromCart(id)}></i>
             </div>

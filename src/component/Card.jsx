@@ -101,18 +101,22 @@ function Card({ title, price, url, id, description, exist, cart, rating, cat }) 
     }
     const productRating = products.find(product => product.id === id)
     useEffect(() => {
-        let initialValue = 0
+        console.log('inside gloable rating')
+        let star = 0
+        let numerator = 0
+        let counter = 0
         if (productRating?.rating) {
-            productRating.rating.forEach((currentValue) => {
-                if (currentValue.number > 0) {
-                    initialValue += currentValue.stars
+            // calc the rating of product
+            for (let i = 0; i < productRating.rating.length; i++) {
+                if (productRating.rating[i].number > 0) {
+                    star = productRating.rating[i].stars * productRating.rating[i].number
+                    numerator += star
+                    counter += productRating.rating[i].number
                 }
-            }, 0)
-            let numberSum = productRating.rating.reduce((initialValue, currentValue) => {
-                return (initialValue + currentValue.number)
-            }, 0)
-            if (numberSum > 0) {
-                setGlobaleRate(initialValue / numberSum)
+            }
+            if (counter > 0) {
+                setGlobaleRate(numerator / counter)
+                if (globaleRate > 0) { console.log('globaleRate', productRating.counter, numerator) }
             }
         }
     }, [productRating])
@@ -128,7 +132,6 @@ function Card({ title, price, url, id, description, exist, cart, rating, cat }) 
                     <h3>Title: {title}</h3>
                     <h3>Price: ${price}</h3>
                     <h5>{globaleRate} <i className="fa-solid fa-star"></i></h5>
-                    {exist && <p>{exist}</p>}
                 </div>
                 {!cart && <RippleButton onClick={() => addProductToCart(id)}>Add To Cart</RippleButton>}
             </div>

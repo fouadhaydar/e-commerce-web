@@ -12,10 +12,8 @@ import { selectUser } from '../app/userSlice'
 import { useEffect } from 'react'
 import { changeTargetProduct, selectProducts } from '../app/productSlice'
 import RippleButton from '../component/RippleBtn'
+
 let percentArry = []
-
-// let counter = 1
-
 function Detail() {
     let counter = 1
     window.scrollTo(0, 0);
@@ -27,6 +25,7 @@ function Detail() {
     const [rating, setRating] = useState(0)
     const userData = useSelector(selectUser)
     const products = useSelector(selectProducts)
+    const [rat, setRat] = useState(0)
     // get the id from url
     const { id } = useParams()
     function handelClick() {
@@ -36,17 +35,27 @@ function Detail() {
                 number: number
             }))
         dispatch(addToCart(id))
-
     }
-
     const globalIndex = products[products.findIndex(product => product.id === id)]
-
+    console.log(globalIndex)
+    // 
+    const index = (products?.findIndex(product => product.id === id))
+    if (globalIndex?.counter > 0 || userData?.userRating?.length > 0 || globalIndex?.rating?.length > 0) {
+        console.log('counter', products[index]?.counter)
+        products[index]?.rating?.map((product) => {
+            percentArry[product.stars - 1] = { stars: product.stars, precent: ((product.number * 100) / products[index].counter) }
+        })
+        percentArry = percentArry.reverse()
+    }
+    console.log(percentArry)
+    // 
     useEffect(() => {
+        { console.log('from useEffect') }
         percentArry = []
         // // lop through each product in redux and put the rating of the user in state
         userData?.userRating?.forEach((product) => {
-
             if (product.productId === id) {
+                console.log(product.productRate)
                 setRating(product.productRate)
                 return
             }
@@ -60,15 +69,6 @@ function Detail() {
                 userRating: userData.userRating
             })
         }
-        const index = (products?.findIndex(product => product.id === id))
-        if (products[index]?.counter > 0) {
-            products[index]?.rating?.map((product) => {
-                percentArry[product.stars - 1] = { stars: product.stars, precent: ((product.number * 100) / products[index].counter) }
-
-            })
-            percentArry = percentArry.reverse()
-        }
-
     }, [userData?.userRating, id])
 
     useEffect(() => {
@@ -87,11 +87,13 @@ function Detail() {
 
     }, [percentArry.length >= 4])
 
+    let star = 0
+    let numerator = 0
+
     function handelRating(num) {
         let ratingNumber = []
         if (userData.email) {
             const oldRating = rating
-
             setRating(num)
             // store th rating of the user in redux
             dispatch(storeRting({
@@ -129,6 +131,7 @@ function Detail() {
             }
             onSnapshot(doc(db, "products", id), (snapshot) => {
                 dispatch(changeTargetProduct({ index: index, arry: ratingNumber }))
+                // window.location.reload()
             })
             if (num > 0) {
                 const item = products.find((element) =>
@@ -147,6 +150,17 @@ function Detail() {
                         rating: ratingNumber,
                         counter: counter
                     })
+
+                    // calc the rating of the product
+                    for (let i = 0; i < ratingNumber.length; i++) {
+                        if (ratingNumber[i].number > 0) {
+                            star = ratingNumber[i].stars * ratingNumber[i].number
+                            numerator += star
+                        }
+                    }
+                    if (counter > 0) {
+                        setRat(numerator / counter)
+                    }
                 }
                 else {
                     ratingNumber[num - 1].number += 1
@@ -158,6 +172,15 @@ function Detail() {
                         rating: ratingNumber,
                         counter: counter
                     })
+                    for (let i = 0; i < ratingNumber.length; i++) {
+                        if (ratingNumber[i].number > 0) {
+                            star = ratingNumber[i].stars * ratingNumber[i].number
+                            numerator += star
+                        }
+                    }
+                    if (counter > 0) {
+                        setRat(numerator / counter)
+                    }
                 }
             }
         }
@@ -183,15 +206,17 @@ function Detail() {
             setNumber(prev => prev + 1)
         }
     }
+    console.log(percentArry)
     return (
         <div className='detail-main-container'>
+
             <div className='hero-detail'>
                 <div className='image-container'>
-                    <img src={globalIndex?.url} alt="furniture" />
+                    <img src={globalIndex?.URL} alt="furniture" />
                 </div>
                 <div className='product-detail'>
                     <h1>{globalIndex?.name}</h1>
-                    <h3> <i className="fa-solid fa-star star"></i>{location?.state?.globaleRate}</h3>
+                    <h3> <i className="fa-solid fa-star star"></i>{rat > 0 ? rat : location?.state?.globaleRate}</h3>
                     <div className='discription-container'>
                         <p>
                             {globalIndex?.Description}
@@ -215,7 +240,7 @@ function Detail() {
                 <div className='second-rating-section'>
                     <div className='rating-nun'>
                         <div className='users-rating'>
-                            <h1>{location?.state?.globaleRate}</h1>
+                            <h1>{rat > 0 ? rat : location?.state?.globaleRate}</h1>
                             <p>of {globalIndex?.counter} Reviews <i className="fa-solid fa-star "></i> </p>
                         </div>
                         <div className='add-your-rating'>
@@ -235,7 +260,7 @@ function Detail() {
                     </div>
                     <div className='main-slider-container' ref={sliderWidth}>
                         {
-                            percentArry.length > 0 && globalIndex?.counter > 0 && percentArry.map((value) => {
+                            globalIndex?.rating?.length > 0 && percentArry.map((value) => {
                                 return (
                                     <div className='slider-container'>
                                         <p>{value.stars}</p>

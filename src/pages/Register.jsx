@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { userData } from '../app/userSlice'
 import { provider } from '../component/firebase/firebase'
 import { signInWithPopup } from "firebase/auth"
-import { setDoc, doc } from 'firebase/firestore'
+import { setDoc, doc, getDocs, collection } from 'firebase/firestore'
 import { nanoid } from 'nanoid'
 
 
@@ -37,9 +37,36 @@ function Register() {
             dispatch(userData({
                 email: result.user.email
             }))
-        }).then(() => {
-            navigate('/')
+            return result
+        }).then((result) => {
+            // confirme if the user was register befor
+            getDocs(collection(db, 'users')).then((snapshot) => {
+                let users = []
+                snapshot.docs.forEach((user) => {
+                    users.push(user)
+                })
+                return users
+            }).then((users) => {
+                let found = false
+                users.map((user) => {
+                    if (user.email !== result.user.email) {
+                        found = true
+                    }
+                })
+                if (!found) {
+                    const id = nanoid()
+                    setDoc(doc(db, 'users', `${id}`), {
+                        email: result.user.email,
+                        id: id,
+                        favorite: [],
+                        userRating: []
+                    });
+                }
+            })
         })
+            .then(() => {
+                navigate('/')
+            })
 
     }
     // submit the registire information 

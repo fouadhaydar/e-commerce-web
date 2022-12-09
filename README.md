@@ -1,3 +1,12 @@
+# furniture e-commerce web application
+
+#### Video Demo: https://youtu.be/uPzus4b51Jo
+
+#### Description:
+Using react HTML and CSS, I developed an e-commerce web application. As a backend, I used Firestore from Firebase. Moreover, I applied the Redux toolkit to manage data more effectively in a global context. This method makes it easy to manipulate data coming from the backend.
+Javascript is used to implement all logic.
+In addition, I created a rating system, a favorite feature, and an authentication method based on email and password or Google. On a variety of devices, the website is responsive.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
