@@ -4,8 +4,24 @@
 
 #### Description:
 Using react HTML and CSS, I developed an e-commerce web application. As a backend, I used Firestore from Firebase. Moreover, I applied the Redux toolkit to manage data more effectively in a global context. This method makes it easy to manipulate data coming from the backend.
+
 Javascript is used to implement all logic.
+
 In addition, I created a rating system, a favorite feature, and an authentication method based on email and password or Google. On a variety of devices, the website is responsive.
+
+First of all, we will discuss all the files that I created for this project. I divided my project into many files called components to make it easier for me to create a high-quality website without too much repeat of code.
+
+The folder component was the first thing I built, and I put all my components in it. I made the navbar component which is a JSX file with all the JSX code and the logic that is needed by the navigation bar. In addition, I made the CSS for that component in a separate file. After that, I designed the home page component and styled it in its own CSS file. I created the footer and I put it in the app component that includes my main components. The home component is placed with another component in the page folder. In this folder, I placed all the pages of my web app like the products page that contains all the products that come from the backend. In addition, it contains the favorite page that shows all the favorite products of the user depending on the data of that user stored in the backend.
+
+The detail page in the page folder shows all the details of a specific product after the user clicks on the card component.
+
+The login page handles the login of registered users, and the register component handles the registration of newly registered users. Each of these components has its own CSS file.
+
+The firebase file contains the js file that handles the backend logic.
+
+The app folder holds all the redux files for global data management.
+
+The Lottie folder contains a Jason file for a loading animation during data fetching.
 
 # Getting Started with Create React App
 
