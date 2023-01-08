@@ -101,7 +101,6 @@ function Card({ title, price, url, id, description, exist, cart, rating, cat }) 
     }
     const productRating = products.find(product => product.id === id)
     useEffect(() => {
-        console.log('inside gloable rating')
         let star = 0
         let numerator = 0
         let counter = 0
@@ -116,7 +115,6 @@ function Card({ title, price, url, id, description, exist, cart, rating, cat }) 
             }
             if (counter > 0) {
                 setGlobaleRate(numerator / counter)
-                if (globaleRate > 0) { console.log('globaleRate', productRating.counter, numerator) }
             }
         }
     }, [productRating])

@@ -63,8 +63,7 @@
         align-items: flex-start;
     }
 
-    .contact-us {
-        padding-left: 30px;
-        margin-left: 20px;
+    .footer-container .one {
+        padding-top: 20px;
     }
 }

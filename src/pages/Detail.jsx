@@ -37,25 +37,20 @@ function Detail() {
         dispatch(addToCart(id))
     }
     const globalIndex = products[products.findIndex(product => product.id === id)]
-    console.log(globalIndex)
     // 
     const index = (products?.findIndex(product => product.id === id))
     if (globalIndex?.counter > 0 || userData?.userRating?.length > 0 || globalIndex?.rating?.length > 0) {
-        console.log('counter', products[index]?.counter)
         products[index]?.rating?.map((product) => {
             percentArry[product.stars - 1] = { stars: product.stars, precent: ((product.number * 100) / products[index].counter) }
         })
         percentArry = percentArry.reverse()
     }
-    console.log(percentArry)
     // 
     useEffect(() => {
-        { console.log('from useEffect') }
         percentArry = []
         // // lop through each product in redux and put the rating of the user in state
         userData?.userRating?.forEach((product) => {
             if (product.productId === id) {
-                console.log(product.productRate)
                 setRating(product.productRate)
                 return
             }
@@ -206,7 +201,6 @@ function Detail() {
             setNumber(prev => prev + 1)
         }
     }
-    console.log(percentArry)
     return (
         <div className='detail-main-container'>
 
@@ -260,9 +254,9 @@ function Detail() {
                     </div>
                     <div className='main-slider-container' ref={sliderWidth}>
                         {
-                            globalIndex?.rating?.length > 0 && percentArry.map((value) => {
+                            globalIndex?.rating?.length > 0 && percentArry.map((value,index) => {
                                 return (
-                                    <div className='slider-container'>
+                                    <div className='slider-container' key={index}>
                                         <p>{value.stars}</p>
                                         <span className='slider-content' data-width={`${value.precent}%`}></span>
                                         <p className='precent'>{` ${value.precent.toFixed(1)}%`}</p>
